@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Data.Maps;
+using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,12 +14,16 @@ namespace Data.Contexts
         public DataContext(DbContextOptions<DataContext> options) : base(options){ }
 
         //DBSETS
-        
+        public virtual DbSet<Guest> Guests { get; set; }
+        public virtual DbSet<Booking> Bookings { get; set; }
+        public virtual DbSet<Room> Rooms { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
-            // Configure your entity mappings here
+            modelBuilder.ApplyConfiguration(new GuestMap());
+            modelBuilder.ApplyConfiguration(new BookingMap());
+            modelBuilder.ApplyConfiguration(new RoomMap());
         }
     }
 }

@@ -21,7 +21,12 @@ namespace Domain.Entities
         public DateTime PlaceAdt { get; set; }
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
+        public Guid RoomId { get; set; }
+        public Room? Room { get; set; }
+        public Guest? Guest { get; set; }
+        public Guid GuestId { get; set; }
         private Status Status { get; set; }
+
         public Status CurrentStatus 
         { 
             get
