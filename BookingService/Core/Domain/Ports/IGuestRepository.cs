@@ -10,6 +10,6 @@ namespace Domain.Ports
     public interface IGuestRepository
     {
         Task<Guest> Get(Guid id);
-        Task<Guid> Save(Guest guest);
+        Task<Guid> Create(Guest guest);
     }
 }
