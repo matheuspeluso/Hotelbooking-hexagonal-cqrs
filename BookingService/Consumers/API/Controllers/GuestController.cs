@@ -1,0 +1,39 @@
+﻿using Application;
+using Application.Guest.Dtos;
+using Application.Guest.Ports;
+using Application.Guest.Requests;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
+namespace API.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class GuestController : ControllerBase
+    {
+        private readonly ILogger<GuestController> _logger;
+        private readonly IGuestManager _guestManager;
+
+        public GuestController(ILogger<GuestController> logger, IGuestManager guestManager)
+        {
+            _logger = logger;
+            _guestManager = guestManager;
+        }
+
+        [HttpPost("create-guest")]
+        public async Task<IActionResult> Post(GuestDTO guest)
+        {
+            var request = new CreateGuestRequest { Data = guest };
+            var res = await _guestManager.CreateGuest(request);
+
+            if(res.Success) return Ok(res.Data);
+
+            if(res.ErrorCoders == ErrorCoders.NOT_FOUND)
+            {
+                return BadRequest(res.Message);
+            }
+            _logger.LogError("Response with unknow ErrorCode Returned", res);
+            return BadRequest(500);
+        }
+    }
+}

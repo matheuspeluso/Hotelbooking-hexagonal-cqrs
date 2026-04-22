@@ -12,10 +12,12 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Scalar.AspNetCore" Version="2.14.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Adapters\Data\Data.csproj" />
+    <ProjectReference Include="..\..\Core\Application\Application.csproj" />
   </ItemGroup>
 
 </Project>
