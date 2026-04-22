@@ -4,6 +4,7 @@ using Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20260422135025_AddValueObjectToGuest")]
+    partial class AddValueObjectToGuest
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -155,34 +158,6 @@ namespace Data.Migrations
                         });
 
                     b.Navigation("DocumentId")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Domain.Entities.Room", b =>
-                {
-                    b.OwnsOne("Domain.ValueObjets.Price", "Price", b1 =>
-                        {
-                            b1.Property<Guid>("RoomId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<string>("AcceptedCurrencies")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)")
-                                .HasColumnName("CURRENCY");
-
-                            b1.Property<decimal>("Value")
-                                .HasColumnType("decimal(18,2)")
-                                .HasColumnName("VALUE");
-
-                            b1.HasKey("RoomId");
-
-                            b1.ToTable("ROOM");
-
-                            b1.WithOwner()
-                                .HasForeignKey("RoomId");
-                        });
-
-                    b.Navigation("Price")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

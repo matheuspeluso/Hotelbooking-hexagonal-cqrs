@@ -22,6 +22,14 @@ namespace Data.Maps
             builder.Property(r => r.Level).HasColumnName("LEVEL").IsRequired();
             builder.Property(r=> r.InMaintenance).HasColumnName("IN_MAINTENANCE").IsRequired();
 
+            builder.OwnsOne(g => g.Price, price =>
+            {
+                price.Property(d => d.Value).HasColumnName("VALUE").IsRequired();
+  
+                price.Property(d=> d.AcceptedCurrencies).HasConversion<string>()
+                .HasColumnName("CURRENCY").IsRequired();
+            });
+
             //Não percistir propriedades calculadas
             builder.Ignore(r => r.IsAvailable);
             builder.Ignore(r=> r.HasGuest);
