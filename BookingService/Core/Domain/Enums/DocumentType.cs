@@ -8,8 +8,8 @@ namespace Domain.Enums
 {
     public enum DocumentType
     {
-        Passport = 0,
-        DrivesLicense = 1,
-        IdentityCard = 2
+        Passport = 1,
+        DrivesLicense = 2,
+        IdentityCard = 3
     }
 }

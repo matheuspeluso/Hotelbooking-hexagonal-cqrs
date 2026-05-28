@@ -2,6 +2,7 @@
 using Application.Guest.Ports;
 using Application.Guest.Requests;
 using Application.Guest.Responses;
+using Domain.Exceptions;
 using Domain.Ports;
 using System;
 using System.Collections.Generic;
@@ -25,14 +26,50 @@ namespace Application
             try
             {
                 var guest = GuestDTO.MapToEntity(request.Data);
-                request.Data.Id = await _guestRepository.Create(guest);
+                await guest.Save(_guestRepository);
+
+                request.Data.Id = guest.Id;
 
                 return new GuestResponse
                 {
                     Data = request.Data,
-                    Success = true
+                    Success = true,
+                    Message = "Guest created successfully."
                 };
-            }catch(Exception)
+            }catch(InvalidPersonDocumentIdException ex)
+            {
+                return new GuestResponse
+                {
+                    Data = null,
+                    Success = false,
+                    ErrorCoders = ErrorCoders.INVALID_PERSON_ID,
+                    Message = "The ID passed is not valid."
+                };
+            }
+
+            catch(MissingRequiredInformationException ex)
+            {
+                return new GuestResponse
+                {
+                    Data = null,
+                    Success = false,
+                    ErrorCoders = ErrorCoders.MISSING_REQUIRED_INFORMATION,
+                    Message = "Some required information is missing."
+                };
+            }
+
+            catch(InvalidEmailException ex)
+            {
+                return new GuestResponse
+                {
+                    Data = null,
+                    Success = false,
+                    ErrorCoders = ErrorCoders.INVALID_EMAIL,
+                    Message = "The email passed is not valid."
+                };
+            }
+            
+            catch(Exception)
             {
                 return new GuestResponse
                 {

@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace Data.Guest.Repositories
+namespace Data.Guests.Repositories
 {
     public class GuestRepository : IGuestRepository
     {
@@ -21,6 +21,7 @@ namespace Data.Guest.Repositories
 
         public async Task<Guid> Create(Entities.Guest guest)
         {
+            guest.Id = Guid.NewGuid();
             _context.Add(guest);
             await _context.SaveChangesAsync();
             return guest.Id;

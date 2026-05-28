@@ -30,10 +30,31 @@ namespace API.Controllers
 
             if(res.ErrorCoders == ErrorCoders.NOT_FOUND)
             {
-                return BadRequest(res.Message);
+                return BadRequest(res);
             }
+            else if(res.ErrorCoders == ErrorCoders.INVALID_PERSON_ID)
+            {
+                return BadRequest(res);
+            }
+            else if(res.ErrorCoders == ErrorCoders.COULD_NOT_STORE_DATA)
+            {
+                return BadRequest(res);
+            }
+            else if(res.ErrorCoders == ErrorCoders.MISSING_REQUIRED_INFORMATION)
+            {
+                return BadRequest(res);
+            }
+            else if(res.ErrorCoders == ErrorCoders.INVALID_EMAIL)
+            {
+                return BadRequest(res);
+            }
+
             _logger.LogError("Response with unknow ErrorCode Returned", res);
-            return BadRequest(500);
+            return StatusCode(500, new
+            {
+                message = "internal server error, unknown error code returned"
+            });
+
         }
     }
 }
